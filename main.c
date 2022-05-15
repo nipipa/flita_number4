@@ -8,7 +8,7 @@ int find();
 
 int main()
 {
-    FILE *file = fopen("matrix_of_incendence198.txt", "r");
+    FILE *file = fopen("matrix.txt", "r");
     char arr[ARR_MAX][ARR_MAX], s;
     int line = 1, ver = 0, reb = 0, max_len = 0;
     while (!feof(file))
