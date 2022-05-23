@@ -1,10 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #define ARR_MAX 1001
 
 int take_vertex();
 int matrix();
 int find();
+
+void time_start() { 
+    mingw_gettimeofday(&tv1, &tz); 
+    }
+
+long time_stop()
+{
+    mingw_gettimeofday(&tv2, &tz);
+    dtv.tv_sec = tv2.tv_sec - tv1.tv_sec;
+    dtv.tv_usec = tv2.tv_usec - tv1.tv_usec;
+    if (dtv.tv_usec < 0)
+    {
+        dtv.tv_sec--;
+        dtv.tv_usec += 1000000;
+    }
+    return dtv.tv_sec * 1000 + dtv.tv_usec / 1000;
+}
 
 int main()
 {
@@ -33,23 +51,52 @@ int main()
 
 int find(char arr[ARR_MAX][ARR_MAX], int line, int ver)
 {
-    int a, b = 0;
-    puts("Write require vertex:");
-    scanf("%d", &a);
+    int v, a = 0, b = 0, num = 0, kol = 0;
+    int vertex[ARR_MAX];
+    puts("Write require grade of vertex:");
+    scanf("%d", &v);    
+    time_start();
     puts("------------------------");
     puts("Required edges:");
-    for (b = 0; b <= ver; b++)
+    puts("***************");
+    for (a = 0; a <= line; a++)
     {
-        if (arr[a][b] == '1')
+        for (b = 0; b <= ver; b++)
         {
-            for (int i = 0; i < line; i++)
+            if (arr[a][b] == '1' )
             {
-                if (arr[i][b] == '1' && i != a)
-                    printf("%d --> %d \n", a, i);
+                for (int i = 0; i <= line; i++)
+                {
+                    if (arr[i][b] == '1' && i != a)
+                        num++;
+                }
             }
+        }
+        vertex[a] = num;
+        num = 0;
+    }
+    for (int i = 0; i <= line; i++)
+    {
+        if (vertex[i] == v)
+        {
+            printf("Vertex %d || grade %d \n", i, vertex[i]);
+            puts("***************");
+            for (b = 0; b <= ver; b++)
+            {
+                if (arr[i][b] == '1')
+                {
+                    for (int k = 0; k <= line; k++)
+                    {
+                        if (arr[k][b] == '1' && k != i)
+                            printf("%d --> %d \n", i, k);
+                    }
+                }
+            }
+            puts("***************");
         }
     }
     puts("------------------------");
+    printf("Time of finding: %ld mc\n", time_stop());
     take_vertex(arr, line, ver);
     return 0;
 }
