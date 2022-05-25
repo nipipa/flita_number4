@@ -47,6 +47,7 @@ int main()
     arr[line][max_len] = '\0';
     fclose(file);
     take_vertex(arr, line, ver);
+    return 0;
 }
 
 int find(char arr[ARR_MAX][ARR_MAX], int line, int ver)
